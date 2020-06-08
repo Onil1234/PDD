@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<!meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width= 500,initial-scale=0.7,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="main.css">
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+		
+		
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+		<script type="text/javascript" src="js/validator.js"></script>
+		
+		<link rel="stylesheet" href="theme.green.css">
+		
+		<!-- load jQuery and tablesorter scripts -->
+		<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+		<!-- tablesorter widgets (optional) -->
+		<script type="text/javascript" src="js/jquery.tablesorter.widgets.js"></script>
+		
+	
+	<title>Hello, world!</title>
+	
+
+</head>
+<body >
+	<nav class="navbar fixed-top navbar-dark bg-dark">
+	
+		<a class="navbar-brand" href="lab1.html">STRONA GŁÓWNA</a>
+		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+			<li class="nav-item">
+				<a class="nav-link" href="http://lcieszynski.zut.edu.pl/fileadmin/DPD/instrukcja_2019.pdf"> INSTRUKCJA </a>
+			</li>
+		</ul>
+		<form class="form-inline my-2 my-lg-0">
+			<div class="ol-md-12">
+			<!div class="navbar-nav mr-auto mt-2 mt-lg-0 btn disabled">
+			<button type="button" class="btn btn-secondary" href="#MyModal" data-toggle="modal" data-target="#MyModal" onclick="koszyk()">KOSZYK</button>
+			
+			</div>
+		</form>
+	</nav>
+
+
+	<div class="modal fade" id="MyModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Koszyk</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+
+					
+					
+                <table  id="cardTable" class="tablesorter-blue">
+                    <thead>
+                    <tr>
+                        <th data-sorter="false">Nazwa produktu</th>
+                        <th data-sorter="false">Cena</th>
+                        <th data-sorter="false">Ilość</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div>Dostawa
+                    <select id="delivery" onchange="przelicz()">
+                        <option value="20">DHL - 20zł</option>
+                        <option selected value="10">Poczta - 10zł</option>
+                        <option value="0">Odbiór osobisty - 0zł</option>
+                    </select>
+                </div>
+                <div>Suma do zapłaty: <span id="totalPrice"></span> zł </div>
+           
+					
+					
+					
+					
+					
+	
+				</div>
+				<div class="modal-footer">
+					<button onclick="zamow()" type="button" class="btn btn-primary">Zamów produkty</button>
+					<button onclick="zamknijKoszyk()" type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	
+	
+	
+	<div class="container-fluid h-100 t-100">
+		<div class="row ">
+			<div class="col-sm col-md-4 col-xl-2  ">
+
+			</div>
+	
+			<div class="col-sm col-md-4 col-xl-8 ">
+				<form onsubmit=" return submitForm(event)">
+					<div class="form-group row">
+						<label for="nazwaTowaru" class="col-sm-2 col-form-label">Nazwa towaru</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="nazwaTowaru" oninput="sprawdzTowarName()">
+								<div id="towar_name_blad"></div>
+							</div>
+					</div>
+					<div class="form-group row">
+						<label for="kodTowaru" class="col-sm-2 col-form-label">Kod towaru</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="kodTowaru" oninput="sprawdzKodTowaru()" placeholder="XX-XX">
+							<div id="kod_blad"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="cenaNetto" class="col-sm-2 col-form-label">Cena netto</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="cenaNetto" onBlur="sprawdzCeneNetto()">
+							<div id="netto_blad"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="stawkaVAT" class="col-sm-2 col-form-label">Stawka VAT</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="stawkaVAT" oninput="sprawdzVAT()">
+							<div id="vat_blad"></div>
+							
+						</div>
+					</div>
+					
+					
+					<div class="form-group row">
+						<label for="cenaBrutto" class="col-sm-2 col-form-label">Cena Brutto</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="cenaBrutto" placeholder="Cena Brutto"  disabled>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="kategoria" class="col-sm-2 col-form-label">Kategoria</label>
+						<div class="col-sm-10">
+							<select class="custom-select" onblur="sprawdzKategorie()" id="kategoria" required>
+								<option selected disabled value="0">Wybierz</option>
+								<option value="narzedzia">Narzędzia</option>
+								<option value="czesci">Części</option>
+								<option value="dodatki">Dodatki</option>
+							</select>
+							<div id="category-error"></div>
+						</div>
+					</div>
+				<fieldset class="form-group">
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Opcje towaru</label>
+							<div class="col-sm-10">
+							  <div class="form-check">
+									<input class="form-check-input" name="opcja" type="checkbox" id="opcjeTowaru1" value="Używany">
+									<label class="form-check-label" for="opcjeTowaru1">
+									Towar używany
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" name="opcja" type="checkbox" id="opcjeTowaru2" value="Stan bardzo dobry">
+									<label class="form-check-label" for="opcjeTowaru2">
+									Bardzo dobry stan
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" name="opcja" type="checkbox" id="opcjeTowaru5" value="Kolor biały">
+									<label class="form-check-label" for="opcjeTowaru5">
+									Kolor biały
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" name="opcja" type="checkbox" id="opcjeTowaru3" value="Kolor czarny">
+									<label class="form-check-label" for="opcjeTowaru3">
+									Kolor czarny
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" name="opcja" type="checkbox" id="opcjeTowaru4" value="Faktura">
+									<label class="form-check-label" for="opcjeTowaru4">
+									Faktura
+									</label>
+								</div>
+							  <div id="towar_blad"></div>
+							</div>
+					 </div>
+				 </fieldset>
+				 <fieldset class="form-group">
+					<div class="row">
+					  <legend class="col-form-label col-sm-2 pt-0">Ocena towaru</legend>
+					  <div class="col-sm-10">
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="radio" name="Ocena" id="ocena1" value="1">
+						  <label class="form-check-label" for="ocena1">
+							1
+						  </label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="radio" name="Ocena" id="ocena2" value="2">
+						  <label class="form-check-label" for="ocena2">
+							2
+						  </label>
+						</div>
+						<div class="form-check form-check-inline ">
+						  <input class="form-check-input" type="radio" name="Ocena" id="ocena3" value="3" checked>
+						  <label class="form-check-label" for="ocena3">
+							3
+						  </label>
+						</div>
+						<div class="form-check form-check-inline ">
+						  <input class="form-check-input" type="radio" name="Ocena" id="ocena4" value="4">
+						  <label class="form-check-label" for="ocena4">
+							4
+						  </label>
+						</div>
+						<div class="form-check form-check-inline ">
+						  <input class="form-check-input" type="radio" name="Ocena" id="ocena5" value="5">
+						  <label class="form-check-label" for="ocena5">
+							5
+						  </label>
+						</div>
+					  </div>
+					</div>
+				  </fieldset>
+				  <div class="form-group row">
+                    <label for="wareImage" class="col-sm-2 col-form-label">Zdjęcie produktu</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="Image"
+                               placeholder="Ware image" value="image.jpg">
+                        
+                    </div>
+                </div>
+				 
+				  <div class="form-group row">
+					<div class="col-sm-10">
+					  <button type="submit" class="btn btn-success">Dodaj produkt</button>
+					  <span id="confirmation" class="confirm" style="display:none">Dodano do tabeli</span>
+					  <span id="duplication-error" class="error" style="display:none;">
+                        W tabeli istnieje już taki produkt!</span>
+										            <span id="card-add-info" class="confirm" style="display:none;">
+                        Dodano do koszyka</span>
+					</div>
+				  </div>
+				  <input type="hidden" name="id" id="id">
+				</form>
+				
+				
+				
+				
+				
+			<div class="col-sm-10">
+                <select  onchange="sortowanie()" id="sort">
+                    <option value="wybor" selected >Sortowanie</option>
+                    <option value="Cena_min"  >Cena od najniższej</option>
+                    <option value="Cena_max" >Cena od najwyższej</option>
+                    <option value="Ocena_min" >Ocena od najniższej</option>
+                    <option value="Ocena_max" >Ocena on najwyższej</option>
+                    <option value="Nazwa_A">Nazwa od A</option>
+                    <option value="Nazwa_Z">Nazwa od Z</option>
+                </select>
+            </div>
+				
+			<table id="myTable" class="tablesorter-green" width="100%">
+                <thead>
+                <tr>
+                    <th data-sorter="false">Id</th>
+                    <th>Nazwa</th>
+                    <th data-sorter="false">Kod</th>
+                    <th>Cena</th>
+                    <th data-sorter="false">Vat</th>
+                    <th data-sorter="false">Brutto</th>
+                    <th data-sorter="false">Kategoria</th>
+                    <th data-sorter="false">Opcje</th>
+                    <th>Ocena</th>
+                    <th data-sorter="false">Zdjęcie</th>
+					<th data-sorter="false">Usuń</th>
+					<th data-sorter="false">Edytuj</th>
+					<th data-sorter="false">Dodaj do koszyka</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+
+				
+				
+				
+				
+				
+				
+				
+				
+			</div>
+			<div class="col-sm col-md- col-xl-2">
+				<div class="card" style="width: 18rem;">
+					<img src="https://i.ytimg.com/vi/65oz_e0B1zo/maxresdefault.jpg"
+						 class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">WIZYTÓWKA</h5>
+						<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nulla nibh,
+							lacinia eget purus in, porttitor auctor ex. Ut egestas id tortor in commodo. In vel tellus
+							volutpat,
+							luctus mi quis, gravida nunc. Donec ullamcorper sodales imperdiet. Curabitur eget ipsum ut nibh
+							porta pharetra et et turpis. Sed non imperdiet ante, vitae egestas lorem. In ipsum mi, eleifend
+							quis nulla at,
+							elementum laoreet tortor. Vestibulum eget sapien tincidunt, finibus diam a, faucibus risus.
+							Etiam fermentum nunc eget maximus commodo.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+	
+<footer class="footer py-3 fixed-bottom navbar-light bg-dark w-100">
+    <div class="container-fluid text-center">
+        <span class="text-muted">STOPKA</span>
+    </div>
+</footer>
+</body>
+</html>

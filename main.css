@@ -1,0 +1,37 @@
+
+
+html, body {
+  height: 100%;
+}
+
+#page-content {
+  flex: 1 0 auto;
+}
+
+#sticky-footer {
+  flex-shrink: none;
+}
+
+body {
+
+  margin-top: 70px;
+  margin-bottom: 100px;
+  background: #007bff;
+  background: linear-gradient(to right, #0062E6, #33AEFF);
+  
+}
+.options-error
+{
+	display: block!important;
+}
+
+.confirm
+{
+    margin-left: 120px;
+    background-color: green;
+}
+.error
+{
+    margin-left: 120px;
+    background-color: red;
+}
